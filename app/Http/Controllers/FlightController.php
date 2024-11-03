@@ -8,7 +8,7 @@ class FlightController extends Controller
 {
     public function store(Request $request)
     {
-        // Validar la entrada (opcional)
+        
         $request->validate([
             'flights' => 'required|array',
             'flights.*.dateOfDeparture' => 'required|string',
@@ -20,7 +20,7 @@ class FlightController extends Controller
             'flights.*.locationId' => 'required|array',
         ]);
 
-        // Guardar cada vuelo en la base de datos
+        
         foreach ($request->flights as $flightData) {
             Flight::create([
                 'dateOfDeparture' => $flightData['dateOfDeparture'],
@@ -29,7 +29,7 @@ class FlightController extends Controller
                 'timeOfArrival' => $flightData['timeOfArrival'],
                 'marketingCarrier' => $flightData['marketingCarrier'],
                 'flightOrtrainNumber' => $flightData['flightOrtrainNumber'],
-                'locationId' => json_encode($flightData['locationId']), // Guardar como JSON
+                'locationId' => json_encode($flightData['locationId']),
             ]);
         }
 
