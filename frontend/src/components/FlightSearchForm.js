@@ -11,9 +11,8 @@ const FlightSearchForm = () => {
     const [error, setError] = useState(null);
 
     const handleSearch = async () => {
-        setError(null); // Resetea el error al iniciar una nueva búsqueda
+        setError(null); 
         try {
-            // Realiza la búsqueda de vuelos
             const response = await axios.post('https://staging.travelflight.aiop.com.co/api/flights/v2', {
                 searchs: 250,
                 qtyPassengers: 1,
@@ -22,23 +21,23 @@ const FlightSearchForm = () => {
                     {
                         departureCity: departureCity,
                         arrivalCity: arrivalCity,
-                        hour: new Date().toISOString(), // Cambiar por la fecha y hora deseada
+                        hour: new Date().toISOString(), 
                     },
                 ],
             });
 
-            const data = response.data; // Asigna los datos de respuesta
+            const data = response.data; 
 
-            // Guarda los vuelos en el estado
+            
             setFlights(data);
 
-            // Ahora guarda los vuelos en la base de datos
-            const saveResponse = await fetch('http://localhost/api/flights/save', { // Cambia la URL según tu entorno
+            
+            const saveResponse = await fetch('http://localhost/api/flights/save', { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ flights: data }), // Asegúrate de que esto coincida con la estructura que espera tu backend
+                body: JSON.stringify({ flights: data }), 
             });
 
             if (!saveResponse.ok) {
@@ -46,7 +45,7 @@ const FlightSearchForm = () => {
             }
 
             const saveData = await saveResponse.json();
-            console.log(saveData.message); // Mensaje de éxito
+            console.log(saveData.message);
 
         } catch (error) {
             setError(error.response ? error.response.data : 'Error al buscar vuelos');
